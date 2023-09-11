@@ -23,7 +23,7 @@ public class AppController {
     @Autowired
     CategoryRepository catRepo;
 
-    @GetMapping({"", "/home"})
+    @GetMapping({"", "/", "/home"})
     public String listAll(Model model){
 
         List<Boardgame> gameList = gameRepo.findByScoreIsGreaterThan(1.9f);
@@ -43,6 +43,12 @@ public class AppController {
         return "categories";
     }
 
+    @GetMapping("/categories/add")
+    public String addCategory(Model model){
+
+        return "addCategory";
+    }
+
     @PostMapping("/categories/add")
     public String createCategory(Category formCat, Model model){
 
@@ -59,6 +65,14 @@ public class AppController {
         return "singleCategory";
     }
 
+    @GetMapping("/categories/{id}/delete")
+    public String deleteCategory(@PathVariable Long id, Model model){
+        catRepo.deleteById(id);
+        List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
+        model.addAttribute("boardgames", gameList);
+        return "singleCategory";
+    }
+
     @GetMapping("/games/{id}/delete")
     public ModelAndView deleteGame(@PathVariable Long id, ModelMap model){
 
@@ -68,9 +82,16 @@ public class AppController {
         return new ModelAndView(redirect, model);
     }
 
-    @PostMapping("/categories/{id}/add")
-    public ModelAndView createGame(@PathVariable Long id, Boardgame formGame, ModelMap model){
+    @GetMapping("/categories/{id}/addGame")
+    public String addGame(@PathVariable Long id, Model model){
+        Category category = catRepo.findById(id).get();
+        model.addAttribute("category", category);
+        return "addGame";
+    }
 
+    @PostMapping("/categories/{id}/addGame")
+    public ModelAndView createGame(@PathVariable Long id, @ModelAttribute Boardgame formGame, ModelMap model){
+        formGame.setCategory(catRepo.getById(id));
         gameRepo.save(formGame);
         List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
         model.addAttribute("boardgames", gameList);

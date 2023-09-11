@@ -8,6 +8,11 @@
 
     <h1 th:text="'Jeux de ' + ${category.getName()}" style="text-align: center;margin: 40px">Nom de la catégorie</h1>
 
+    <nav class="nav2 d-flex justify-content-center mb-3">
+        <a th:href="'/gameshop/categories/'+${category.getId()}+'/addGame'" href="#" class="btn btn-primary" style="margin-right: 1vw;">Ajouter un jeu</a>
+        <a th:href="'/categories/'+${category.getId()}+'/addGame'" href="#" class="btn btn-danger">Supprimer la catégorie</a>
+    </nav>
+
     <div th:if="${boardgames.isEmpty()}">
         <p style="text-align: center">Pas de jeux à lister (contacter l'administration du site)</p>
     </div>
