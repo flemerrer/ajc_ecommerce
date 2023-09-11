@@ -42,8 +42,12 @@ public class Boardgame {
         this.id = id;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getCategory() {
+        if (category != null) {
+            return category.getName();
+        } else {
+            return "";
+        }
     }
 
     public void setCategory(Category category) {

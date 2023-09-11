@@ -20,8 +20,8 @@
             <div class="card-body">
                 <h5 class="card-title" th:text="${game.getName()}">Nom</h5>
                 <p class="card-text" th:text="${game.getCategory()}">Catégorie</p>
-                <p class="card-text" th:text="${game.getScore()} /5">Note</p>
-                <p class="card-text" th:text="${game.getPrice()}">Prix</p>
+                <p class="card-text" th:text="'Note : ' + ${game.getScore()} + '/5'">Note</p>
+                <p class="card-text" th:text="'Prix : ' + ${game.getPrice()} + ' €'">Prix</p>
             </div>
             <div class="card-footer d-flex justify-content-center">
                 <a href="#" class="btn btn-primary">Voir le jeu</a>
