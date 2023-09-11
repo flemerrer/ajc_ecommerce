@@ -30,11 +30,12 @@ public class AppController {
     @GetMapping({"", "/home"})
     public String listAll(Model model){
 
-        List<Boardgame> gameList = gameRepo.findByScoreIsGreaterThan(3.9f);
+        List<Boardgame> gameList = gameRepo.findByScoreIsGreaterThan(1.9f);
         //TODO: fix this query
-//        List<Category> catList = catRepo.findTopBySizeOrderBySizeDesc(3);
+//        List<Category> catList = catRepo.findTopByBoardgameListIsGreaterThanOrderByBoardgameListDesc(1);
+        List<Category> catList = catRepo.findAll();
         model.addAttribute("boardgames", gameList);
-//        model.addAttribute("categories", catList);
+        model.addAttribute("categories", catList);
         return "home";
     }
 

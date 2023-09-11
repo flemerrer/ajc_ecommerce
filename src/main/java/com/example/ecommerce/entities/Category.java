@@ -18,11 +18,8 @@ public class Category {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     List<Boardgame> boardgameList;
 
-    private int size;
-
     public Category(String name) {
         this.name = name;
-        this.size = boardgameList.size();
     }
 
     public Category() {
@@ -52,11 +49,4 @@ public class Category {
         this.boardgameList = boardgameList;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
 }

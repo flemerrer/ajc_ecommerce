@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findTopBySizeOrderBySizeDesc(int i);
-
-    /*List<Boardgame> findBy();*/
+//    List<Category> findTopByBoardgameListIsGreaterThanOrderByBoardgameListDesc(int i);
 
 }
