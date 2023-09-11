@@ -18,12 +18,12 @@ public class Boardgame {
 
     String name;
     String publisher;
-    int score;
+    float score;
     //stocker en centimes
     int price;
     String description;
 
-    public Boardgame(String name, String publisher, int score, int price, String description) {
+    public Boardgame(String name, String publisher, float score, int price, String description) {
         this.name = name;
         this.publisher = publisher;
         this.score = score;
@@ -66,11 +66,11 @@ public class Boardgame {
         this.publisher = publisher;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 
