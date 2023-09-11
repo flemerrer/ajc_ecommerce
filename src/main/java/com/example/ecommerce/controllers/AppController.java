@@ -2,6 +2,8 @@ package com.example.ecommerce.controllers;
 
 import com.example.ecommerce.entities.Boardgame;
 import com.example.ecommerce.entities.Category;
+import com.example.ecommerce.entities.FormCat;
+import com.example.ecommerce.entities.FormGame;
 import com.example.ecommerce.repositories.BoardgameRepository;
 import com.example.ecommerce.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @Controller
-@RequestMapping("/gameshop")
+@RequestMapping("/")
 public class AppController {
 
     @Autowired
@@ -23,7 +27,7 @@ public class AppController {
     @Autowired
     CategoryRepository catRepo;
 
-    @GetMapping({"", "/", "/home"})
+    @GetMapping({"", "/gameshop", "/gameshop/", "/home"})
     public String listAll(Model model){
 
         List<Boardgame> gameList = gameRepo.findByScoreIsGreaterThan(1.9f);
@@ -35,7 +39,7 @@ public class AppController {
         return "home";
     }
 
-    @GetMapping("/categories")
+    @GetMapping("/gameshop/categories")
     public String listCategories(Model model){
 
         List<Category> catList = catRepo.findAll();
@@ -43,20 +47,23 @@ public class AppController {
         return "categories";
     }
 
-    @GetMapping("/categories/add")
-    public String addCategory(Model model){
-
+    @GetMapping("/gameshop/categories/add")
+    public String addCategory(FormCat formCat, Model model){
+        model.addAttribute("formCat", formCat);
         return "addCategory";
     }
 
-    @PostMapping("/categories/add")
-    public String createCategory(Category formCat, Model model){
-
-        catRepo.save(formCat);
-        return "categories";
+    @PostMapping("/gameshop/categories/add")
+    public ModelAndView createCategory(FormCat formCat, ModelMap model){
+        Category newCat = new Category();
+        newCat.setName(formCat.getName());
+        catRepo.save(newCat);
+        List<Category> catList = catRepo.findAll();
+        model.addAttribute("categories", catList);
+        return new ModelAndView("redirect:/gameshop/categories", model);
     }
 
-    @GetMapping("/categories/{id}")
+    @GetMapping("/gameshop/categories/{id}")
     public String listCategories(@PathVariable Long id, Model model){
         Category category = catRepo.findById(id).get();
         model.addAttribute("category", category);
@@ -65,15 +72,13 @@ public class AppController {
         return "singleCategory";
     }
 
-    @GetMapping("/categories/{id}/delete")
-    public String deleteCategory(@PathVariable Long id, Model model){
+    @GetMapping("/gameshop/categories/delete/{id}")
+    public ModelAndView deleteCategory(@PathVariable Long id, ModelMap model){
         catRepo.deleteById(id);
-        List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
-        model.addAttribute("boardgames", gameList);
-        return "singleCategory";
+        return new ModelAndView("redirect:/gameshop/categories", model);
     }
 
-    @GetMapping("/games/{id}/delete")
+    @GetMapping("/gameshop/games/delete/{id}")
     public ModelAndView deleteGame(@PathVariable Long id, ModelMap model){
 
         Long idCat = gameRepo.findById(id).get().getCategoryId();
@@ -82,23 +87,30 @@ public class AppController {
         return new ModelAndView(redirect, model);
     }
 
-    @GetMapping("/categories/{id}/addGame")
-    public String addGame(@PathVariable Long id, Model model){
+    @GetMapping("/gameshop/categories/{id}/addGame/")
+    public String addGame(@PathVariable Long id, FormGame formGame, Model model){
         Category category = catRepo.findById(id).get();
+        model.addAttribute("formGame", formGame);
         model.addAttribute("category", category);
         return "addGame";
     }
 
-    @PostMapping("/categories/{id}/addGame")
-    public ModelAndView createGame(@PathVariable Long id, @ModelAttribute Boardgame formGame, ModelMap model){
-        formGame.setCategory(catRepo.getById(id));
-        gameRepo.save(formGame);
+    @PostMapping("/gameshop/categories/{id}/addGame")
+    public ModelAndView createGame(@PathVariable Long id, @ModelAttribute FormGame formGame, ModelMap model){
+        Boardgame newGame = new Boardgame();
+        newGame.setName(formGame.getName());
+        newGame.setCategory(catRepo.getById(id));
+        newGame.setPrice(formGame.getPrice());
+        newGame.setScore(formGame.getScore());
+        newGame.setDescription(formGame.getDescription());
+        newGame.setPublisher(formGame.getPublisher());
+        gameRepo.save(newGame);
         List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
         model.addAttribute("boardgames", gameList);
         return new ModelAndView("redirect:/gameshop/categories/{id}", model);
     }
 
-    @GetMapping("/games/{id}")
+    @GetMapping("/gameshop/games/{id}")
     public String getOneGame(@PathVariable Long id, Model model){
 
         Boardgame game = gameRepo.findById(id).get();

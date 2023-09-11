@@ -4,13 +4,38 @@
     <meta charset="UTF-8">
     <title>Détail de la catégorie</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link type="text/css" href="css/theme.css">
+    <style>
+        body {
+            background-color: rgba(245, 134, 110, 0.95);
+        }
+    </style>
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/home">
+            <img src="https://i.imgur.com/dK74xzI.png" width="30" height="30" class="d-inline-block align-top" alt="" style="margin-left: 2vw;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/gameshop/categories">Nos catégories</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <h1 th:text="'Jeux de ' + ${category.getName()}" style="text-align: center;margin: 40px">Nom de la catégorie</h1>
 
     <nav class="nav2 d-flex justify-content-center mb-3">
-        <a th:href="'/gameshop/categories/'+${category.getId()}+'/addGame'" href="#" class="btn btn-primary" style="margin-right: 1vw;">Ajouter un jeu</a>
-        <a th:href="'/categories/'+${category.getId()}+'/addGame'" href="#" class="btn btn-danger">Supprimer la catégorie</a>
+        <a th:href="'/gameshop/categories/'+${category.getId()}+'/addGame/'" href="#" class="btn btn-primary" style="margin-right: 1vw;">Ajouter un jeu</a>
+        <a th:href="'/gameshop/categories/delete/'+${category.getId()}" href="#" class="btn btn-danger">Supprimer la catégorie</a>
     </nav>
 
     <div th:if="${boardgames.isEmpty()}">
@@ -28,14 +53,20 @@
                 </div>
                 <div class="card-footer d-flex justify-content-center">
                     <a th:href="'/gameshop/games/'+${game.getId()}" href="#" class="btn btn-success" style="margin-right: 1vw;">Voir le jeu</a>
-                    <a th:href="'/gameshop/games/'+${game.getId()}+'/modify'" href="#" class="btn btn-primary">Modifier</a>
-                    <form th:action="'/gameshop/games/'+${game.getId()}+'/delete'" action="#" method="GET">
+<!--                    <a th:href="'/gameshop/games/modify/'+${game.getId()}" href="#" class="btn btn-primary">Modifier</a>-->
+                    <form th:action="'/gameshop/games/delete/'+${game.getId()}" action="#" method="GET">
                         <input type="submit" class="btn btn-danger" style="margin-left: 1vw;" value="Supprimer">
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+        <div class="container d-flex justify-content-center">
+            <span class="text-muted">Gameshop POC 2023</span>
+        </div>
+    </nav>
 
 </body>
 </html>

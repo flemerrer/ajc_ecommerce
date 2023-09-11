@@ -4,10 +4,39 @@
     <meta charset="UTF-8">
     <title>Liste des catégories</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link type="text/css" href="css/theme.css">
+    <style>
+        body {
+            background-color: rgba(245, 134, 110, 0.95);
+        }
+    </style>
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/home">
+        <img src="https://i.imgur.com/dK74xzI.png" width="30" height="30" class="d-inline-block align-top" alt="" style="margin-left: 2vw;">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/gameshop/categories">Nos catégories</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
     <h1 style="text-align: center;margin: 40px">Toutes les catégories</h1>
+
+    <nav class="nav2 d-flex justify-content-center mb-3">
+        <a href="/gameshop/categories/add" class="btn btn-primary">Ajouter une catégorie</a>
+    </nav>
 
     <div th:if="${categories.isEmpty()}">
         <p style="text-align: center">Pas de catégories à lister (contacter l'administration du site)</p>
@@ -18,11 +47,18 @@
             <div class="" th:each="cat : ${categories}">
                 <div class="card d-flex justify-content-center" style="margin-bottom: 25px;">
                     <div class="card-body" style="text-align: center;">
-                        <a th:href="'/gameshop/categories/'+${cat.getId()}" href="#" class="btn btn-primary" th:text="${cat.getName()}">Nom</a>
+                        <a th:href="'/gameshop/categories/'+${cat.getId()}" href="#" class="" th:text="${cat.getName()}">Nom</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+<nav class="navbar fixed-bottom navbar-light bg-light">
+    <div class="container d-flex justify-content-center">
+        <span class="text-muted">Gameshop POC 2023</span>
+    </div>
+</nav>
+
 </body>
 </html>
