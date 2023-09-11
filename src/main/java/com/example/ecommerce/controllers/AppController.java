@@ -27,13 +27,14 @@ public class AppController {
     @Autowired
     CategoryRepository catRepo;
 
-    @GetMapping({"/", "/home"})
+    @GetMapping({"", "/home"})
     public String listAll(Model model){
 
         List<Boardgame> gameList = gameRepo.findByScoreIsGreaterThan(3.9f);
-        List<Category> catList = catRepo.findTopBySizeOrderByDesc(3);
+        //TODO: fix this query
+//        List<Category> catList = catRepo.findTopBySizeOrderBySizeDesc(3);
         model.addAttribute("boardgames", gameList);
-        model.addAttribute("categories", catList);
+//        model.addAttribute("categories", catList);
         return "home";
     }
 
