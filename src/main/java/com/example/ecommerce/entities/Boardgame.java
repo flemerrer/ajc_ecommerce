@@ -74,8 +74,8 @@ public class Boardgame {
         this.score = score;
     }
 
-    public int getPrice() {
-        return price;
+    public float getPrice() {
+        return price/100f;
     }
 
     public void setPrice(int price) {

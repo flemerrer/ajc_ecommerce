@@ -30,8 +30,8 @@ public class AppController {
     @GetMapping({"/", "/home"})
     public String listAll(Model model){
 
-        List<Boardgame> gameList = gameRepo.findByScoreIsGreaterThan(4);
-        List<Category> catList = catRepo.findTopByBoardgameListOrderByBoardgameListDesc(3);
+        List<Boardgame> gameList = gameRepo.findByScoreIsGreaterThan(3.9f);
+        List<Category> catList = catRepo.findTopBySizeOrderByDesc(3);
         model.addAttribute("boardgames", gameList);
         model.addAttribute("categories", catList);
         return "home";
@@ -53,27 +53,27 @@ public class AppController {
     }
 
     @GetMapping("/categories/{id}")
-    public String listCategories(@PathVariable int id, Model model){
+    public String listCategories(@PathVariable Long id, Model model){
 
-        List<Boardgame> gameList = gameRepo.findByCategory(id);
+        List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
         model.addAttribute("boardgames", gameList);
         return "singleCategory";
     }
 
     @PostMapping("/categories/{id}/add")
-    public ModelAndView createGame(@PathVariable int id, Boardgame formGame, ModelMap model){
+    public ModelAndView createGame(@PathVariable Long id, Boardgame formGame, ModelMap model){
 
         gameRepo.save(formGame);
-        List<Boardgame> gameList = gameRepo.findByCategory(id);
+        List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
         model.addAttribute("boardgames", gameList);
         return new ModelAndView("redirect:/categories/{id}", model);
     }
 
     @GetMapping("/games/{id}")
-    public String getOneGame(@PathVariable int id, Model model){
+    public String getOneGame(@PathVariable Long id, Model model){
 
         //TODO : fix the fetch type so the app doesn't crash (out of memory)
-        Optional<Boardgame> gameList = gameRepo.findById(Long.valueOf(id));
+        Optional<Boardgame> gameList = gameRepo.findById(id);
         model.addAttribute("boardgames", gameList);
         return "game";
     }

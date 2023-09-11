@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface BoardgameRepository extends JpaRepository<Boardgame, Long> {
 
-    List<Boardgame> findByScoreIsGreaterThan(int score);
+    List<Boardgame> findByScoreIsGreaterThan(float score);
 
-    List<Boardgame> findByCategory(int id);
+    List<Boardgame> findByCategory_Id(Long id);
 
 //    List<Boardgame> findBy();
 
