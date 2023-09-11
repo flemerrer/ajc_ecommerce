@@ -31,6 +31,9 @@ public class Boardgame {
         this.description = description;
     }
 
+    public Boardgame() {
+    }
+
     public Long getId() {
         return id;
     }
