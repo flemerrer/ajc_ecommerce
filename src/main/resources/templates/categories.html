@@ -7,5 +7,22 @@
 </head>
 <body>
 
+    <h1 style="text-align: center;margin: 40px">Toutes les catégories</h1>
+
+    <div th:if="${categories.isEmpty()}">
+        <p style="text-align: center">Pas de catégories à lister (contacter l'administration du site)</p>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-6 d-flex flex-column justify-content-center" th:if="${!categories.isEmpty()}" style="margin-left: 5vw; margin-right: 5vw;">
+            <div class="" th:each="cat : ${categories}">
+                <div class="card d-flex justify-content-center" style="margin-bottom: 25px;">
+                    <div class="card-body" style="text-align: center;">
+                        <a th:href="'/gameshop/categories/'+${cat.getId()}" href="#" class="btn btn-primary" th:text="${cat.getName()}">Nom</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

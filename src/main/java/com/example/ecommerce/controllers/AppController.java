@@ -8,14 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/gameshop")
@@ -56,10 +52,20 @@ public class AppController {
 
     @GetMapping("/categories/{id}")
     public String listCategories(@PathVariable Long id, Model model){
-
+        Category category = catRepo.findById(id).get();
+        model.addAttribute("category", category);
         List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
         model.addAttribute("boardgames", gameList);
         return "singleCategory";
+    }
+
+    @GetMapping("/games/{id}/delete")
+    public ModelAndView deleteGame(@PathVariable Long id, ModelMap model){
+
+        Long idCat = gameRepo.findById(id).get().getCategoryId();
+        String redirect = "redirect:/gameshop/categories/"+idCat;
+        gameRepo.deleteById(id);
+        return new ModelAndView(redirect, model);
     }
 
     @PostMapping("/categories/{id}/add")
@@ -68,15 +74,14 @@ public class AppController {
         gameRepo.save(formGame);
         List<Boardgame> gameList = gameRepo.findByCategory_Id(id);
         model.addAttribute("boardgames", gameList);
-        return new ModelAndView("redirect:/categories/{id}", model);
+        return new ModelAndView("redirect:/gameshop/categories/{id}", model);
     }
 
     @GetMapping("/games/{id}")
     public String getOneGame(@PathVariable Long id, Model model){
 
-        //TODO : fix the fetch type so the app doesn't crash (out of memory)
-        Optional<Boardgame> gameList = gameRepo.findById(id);
-        model.addAttribute("boardgames", gameList);
+        Boardgame game = gameRepo.findById(id).get();
+        model.addAttribute("boardgame", game);
         return "game";
     }
 

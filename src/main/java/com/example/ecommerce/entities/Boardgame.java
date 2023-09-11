@@ -42,12 +42,16 @@ public class Boardgame {
         this.id = id;
     }
 
-    public String getCategory() {
+    public String getCategoryName() {
         if (category != null) {
             return category.getName();
         } else {
             return "";
         }
+    }
+
+    public Long getCategoryId() {
+        return category.getId();
     }
 
     public void setCategory(Category category) {
